@@ -29,7 +29,7 @@ const useFetch = function () {
     };
 
     if (getStoredRecipes) {
-      setData(getStoredRecipes);
+      setData(JSON.parse(getStoredRecipes));
     } else {
       getData();
     }

@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import * as routes from "./constants/routes";
 import { AuthContext } from "./context/authContext";
+import Header from "./components/Header";
 
 function App() {
   const { userAuth } = useContext(AuthContext);
@@ -12,7 +13,7 @@ function App() {
 
   return (
     <div>
-      {/* <h1>Recipe Book</h1> */}
+      <Header />
       <Routes>
         <Route path={routes.home} element={<Home />}></Route>
         <Route path={routes.signUp} element={<SignUp />}></Route>

@@ -8,3 +8,15 @@ body {
   background-color: #fffbe9;
   color: #4e5a39;
 }
+
+.fixed-height {
+  height: inherit;
+  max-height: inherit;
+  margin: auto;
+  /* width: inherit; */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
