@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebase/firebase";
-import { addDoc, collection } from "firebase/firestore";
 import { ImSpinner3 } from "react-icons/im";
-import { useNavigate, Link } from "react-router-dom";
-import { home, logIn } from "../constants/routes";
+import { Link, useNavigate } from "react-router-dom";
+import { signUp, home } from "../constants/routes";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebase";
 
-function SignUp() {
-  const [username, setUsername] = useState("");
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -16,36 +14,17 @@ function SignUp() {
 
   const submitFormHandler = async function (e) {
     e.preventDefault();
-    console.log(username, email, password);
-    if (
-      username.trim() === "" ||
-      email.trim() === "" ||
-      password.trim() === ""
-    ) {
-      return;
-    }
-
     try {
       setLoading(true);
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-
-      console.log(res);
-      if (!res) throw new Error("user already exists");
-
-      await addDoc(collection(db, "users"), {
-        uid: res?.user?.uid,
-        username,
-        bookmarkedRecipe: [],
-      });
-
+      const res = await signInWithEmailAndPassword(auth, email, password);
+      if (!res) throw new Error("incorrect credentails");
       navigate(home);
     } catch (error) {
       setError(error.message);
     }
-    setLoading(false);
-    setUsername("");
     setEmail("");
     setPassword("");
+    setLoading(false);
   };
 
   return (
@@ -54,18 +33,6 @@ function SignUp() {
         onSubmit={submitFormHandler}
         className="flex rounded-md bg-white flex-col w-[400px] py-20 px-14 gap-6 shadow-sm text-sm"
       >
-        <input
-          type="text"
-          className="border-b focus:outline-none p-2 border-[#FCF3E5] placeholder:text-sm bg-transparent "
-          placeholder="username"
-          required
-          name="username"
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
-            setError(null);
-          }}
-        />
         <input
           type="email"
           className="border-b focus:outline-none p-2 border-[#fbf4d4] placeholder:text-sm"
@@ -91,7 +58,7 @@ function SignUp() {
           }}
         />
         <button className=" self-center px-7 py-1.5 rounded-md font-normal bg-[#FAECD6] hover:shadow-md text-sm mt-5 focus:outline-none">
-          SignIn
+          Login
         </button>
         {loading && (
           <ImSpinner3
@@ -100,9 +67,9 @@ function SignUp() {
         )}
         {error && <p className="text-md text-red-400">{error}</p>}
         <p className="text-xs text-center">
-          Already have an account?{" "}
-          <Link className="hover:border-b-2 border-blue-200" to={logIn}>
-            Login
+          Don't have an account?{" "}
+          <Link className="hover:border-b-2 border-blue-200" to={signUp}>
+            signup
           </Link>
         </p>
       </form>
@@ -110,4 +77,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Login;
