@@ -6,8 +6,8 @@ export const AuthContext = createContext({
 });
 
 export const ProviderAuthContext = function (props) {
-  const storedAuthUser = JSON.parse(localStorage.getItem("authUser"));
-  const [user, setUser] = useState(storedAuthUser);
+  const storedAuthUser = localStorage.getItem("authUser");
+  const [user, setUser] = useState(JSON.parse(storedAuthUser));
   // console.log(user, "authContext");
 
   const auth = getAuth();

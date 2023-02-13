@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 function Home() {
   const { data, error, loading } = useFetch();
-  console.log(data);
+  // console.log(data);
   return (
     <div className="h-[100vh]">
-      <div className="w-[80%] m-auto bg-pink-50  py-10">
+      <div className="w-[80%] m-auto  py-10">
         <ul className="flex flex-wrap gap-10 items-center justify-center">
           {data &&
             data.map((item) => (
@@ -20,9 +20,9 @@ function Home() {
                   <img
                     src={item?.image}
                     alt=""
-                    className="w-full z-10 h-full object-cover absolute"
+                    className="w-[100%] z-10 h-[100%] object-cover absolute"
                   />
-                  <div className="min-h-[40%]  rounded-sm z-30 w-[70%] bg-[#fffbe9]/70 bottom-0 left-0 absolute group-hover:translate-y-[100%] duration-150 p-2 text-center text-lgs font-semibold flex items-center justify-center flex-wrap">
+                  <div className="min-h-[40%]  rounded-sm z-30 w-[70%] bg-[#fffbe9]/50 bottom-0 left-0 absolute group-hover:translate-y-[100%] duration-150 p-2 text-center text-sm px-4 font-semibold flex items-center justify-center flex-wrap backdrop-blur-sm">
                     {item.title}
                   </div>
                 </div>
