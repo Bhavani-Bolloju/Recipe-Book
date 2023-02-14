@@ -6,10 +6,10 @@ import Home from "./pages/Home";
 import * as routes from "./constants/routes";
 import { AuthContext } from "./context/authContext";
 import Header from "./components/Header";
+import Recipe from "./components/Recipe";
 
 function App() {
   const { userAuth } = useContext(AuthContext);
-  // console.log(userAuth);
 
   return (
     <div>
@@ -18,6 +18,7 @@ function App() {
         <Route path={routes.home} element={<Home />}></Route>
         <Route path={routes.signUp} element={<SignUp />}></Route>
         <Route path={routes.logIn} element={<Login />}></Route>
+        <Route path="Recipe/:id" element={<Recipe />}></Route>
       </Routes>
     </div>
   );

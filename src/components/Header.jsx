@@ -1,10 +1,30 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { AuthContext } from "../context/authContext";
+import { query, collection, getDocs, where } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 
 function Header() {
   const { userAuth } = useContext(AuthContext);
-  console.log(userAuth);
+  const [userDetails, setUserDetails] = useState(null);
+
+  // console.log(userAuth.uid);
+
+  useEffect(() => {
+    const getUserByUserId = async function () {
+      const q = query(
+        collection(db, "users"),
+        where("uid", "==", userAuth.uid)
+      );
+      const doc = await getDocs(q);
+      const data = doc.docs[0].data();
+      setUserDetails(data);
+    };
+
+    if (userAuth?.uid) {
+      getUserByUserId();
+    }
+  }, [userAuth.uid]);
 
   return (
     <header className=" h-16 relative">
@@ -21,7 +41,13 @@ function Header() {
                 <BiSearch className="text-gray-400 text-xl" />
               </button>
             </form>
-            <div className="w-11 h-11 rounded-full bg-green-200"></div>
+            <div className="w-11 h-11 rounded-full bg-[#edde9c] flex items-center justify-center">
+              {userDetails && (
+                <>
+                  <p className="text-xl">{userDetails.username.slice(0, 1)} </p>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

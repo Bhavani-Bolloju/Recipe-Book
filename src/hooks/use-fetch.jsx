@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const useFetch = function () {
+const useFetch = function (url, name) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -10,17 +10,18 @@ const useFetch = function () {
     const getData = async function () {
       try {
         setLoading(true);
-        const res = await fetch(
-          `https://api.spoonacular.com/recipes/random?apiKey=ef3fbded5ccd4a71b118085f0def999a&number=15`
-        );
+        const res = await fetch(`https://api.spoonacular.com/recipes${url}`);
 
-        console.log(res, "res from use fetch");
+        // console.log(res, "res from use fetch");
 
         if (!res) throw new Error(res);
 
         const data = await res.json();
-        localStorage.setItem("popular", JSON.stringify(data.recipes));
-        setData(data.recipes);
+        if (name == "popular") {
+          localStorage.setItem("popular", JSON.stringify(data.recipes));
+        }
+
+        setData(data);
       } catch (error) {
         setError(error.message);
       }
@@ -28,12 +29,14 @@ const useFetch = function () {
       setLoading(false);
     };
 
-    if (getStoredRecipes) {
-      setData(JSON.parse(getStoredRecipes));
+    if (name == "popular") {
+      if (getStoredRecipes) {
+        setData(JSON.parse(getStoredRecipes));
+      }
     } else {
       getData();
     }
-  }, []);
+  }, [url]);
 
   return { data, error, loading };
 };

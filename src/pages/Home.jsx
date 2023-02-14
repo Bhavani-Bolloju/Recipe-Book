@@ -3,8 +3,11 @@ import useFetch from "../hooks/use-fetch";
 import { Link } from "react-router-dom";
 
 function Home() {
-  const { data, error, loading } = useFetch();
-  // console.log(data);
+  const { data, error, loading } = useFetch(
+    "/random?apiKey=ef3fbded5ccd4a71b118085f0def999a&number=15",
+    "popular"
+  );
+  console.log(data);
   return (
     <div className="h-[100vh]">
       <div className="w-[80%] m-auto  py-10">
@@ -12,7 +15,7 @@ function Home() {
           {data &&
             data.map((item) => (
               <Link
-                to={`${item.id}`}
+                to={`/Recipe/${item.id}`}
                 key={item.id}
                 className="w-[350px] h-[250px] rounded-lg overflow-hidden"
               >
