@@ -22,7 +22,6 @@ function Recipe() {
   // const storeRecipe = localStorage.setItem("recipe", JSON.stringify(data));
 
   const data = JSON.parse(localStorage.getItem("recipe"));
-  // console.log(data);
 
   const bookmarkHandler = async function () {
     setBookmark((prev) => !prev);

@@ -33,6 +33,10 @@ function Header() {
     navigate(`/Search/${searchInput}`);
   };
 
+  const userProfileHandler = function () {
+    navigate("/Profile");
+  };
+
   return (
     <header className=" h-16 relative">
       <div className="z-50 bg-[#fffbe9]/70 backdrop-blur-lg shadow-md fixed-height w-[100%] fixed">
@@ -52,13 +56,16 @@ function Header() {
                 <BiSearch className="text-gray-400 text-xl" />
               </button>
             </form>
-            <div className="w-11 h-11 rounded-full bg-[#edde9c] flex items-center justify-center">
+            <button
+              onClick={userProfileHandler}
+              className="w-11 h-11 rounded-full bg-[#edde9c] flex items-center justify-center"
+            >
               {userDetails && (
                 <>
                   <p className="text-xl">{userDetails.username.slice(0, 1)} </p>
                 </>
               )}
-            </div>
+            </button>
           </div>
         </div>
       </div>
