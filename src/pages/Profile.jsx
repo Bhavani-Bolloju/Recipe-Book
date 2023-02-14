@@ -2,11 +2,16 @@ import React, { useContext, useEffect, useState } from "react";
 import { getUserByUserId } from "../firebase/services";
 import { AuthContext } from "../context/authContext";
 import { Link } from "react-router-dom";
+import { auth } from "../firebase/firebase";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const { userAuth } = useContext(AuthContext);
 
   const [user, setUser] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUser = async function () {
@@ -18,7 +23,7 @@ function Profile() {
     if (userAuth.uid) {
       getUser();
     }
-  }, [userAuth.uid]);
+  }, [userAuth?.uid]);
 
   return (
     <div className=" w-[60%] m-auto p-10">
@@ -29,6 +34,17 @@ function Profile() {
               {user.username.slice(0, 1)}
             </div>
             <p>{user.username}</p>
+            <button
+              className=" flex-1 text-end"
+              onClick={() => {
+                navigate("signUp");
+                signOut(auth);
+              }}
+            >
+              <span className="bg-[#edde9c] inline-block px-4 py-1 text-sm rounded-md">
+                Logout
+              </span>
+            </button>
           </div>
           <div>
             <h3 className="text-center text-sm p-2">Saved Recipes</h3>

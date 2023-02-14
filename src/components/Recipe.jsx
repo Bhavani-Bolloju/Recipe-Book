@@ -16,12 +16,12 @@ function Recipe() {
   const bookmarkId = useId();
   // console.log(userAuth.uid);
 
-  // const { data, error, loading } = useFetch(
-  //   `/${id}/information?apiKey=ef3fbded5ccd4a71b118085f0def999a`
-  // );
+  const { data, error, loading } = useFetch(
+    `/${id}/information?apiKey=ef3fbded5ccd4a71b118085f0def999a`
+  );
   // const storeRecipe = localStorage.setItem("recipe", JSON.stringify(data));
 
-  const data = JSON.parse(localStorage.getItem("recipe"));
+  // const data = JSON.parse(localStorage.getItem("recipe"));
 
   const bookmarkHandler = async function () {
     setBookmark((prev) => !prev);

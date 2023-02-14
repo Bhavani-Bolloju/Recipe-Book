@@ -18,7 +18,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Navigate to={routes.home} />}></Route>
-        <Route path={routes.home} element={<Home />}></Route>
+        <Route
+          path={routes.home}
+          element={userAuth ? <Home /> : <Navigate to={routes.signUp} />}
+        ></Route>
         <Route path={routes.signUp} element={<SignUp />}></Route>
         <Route path={routes.logIn} element={<Login />}></Route>
         <Route path="Recipe/:id" element={<Recipe />}></Route>

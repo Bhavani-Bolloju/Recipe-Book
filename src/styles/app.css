@@ -510,6 +510,9 @@ video {
 .mt-5 {
   margin-top: 1.25rem;
 }
+.inline-block {
+  display: inline-block;
+}
 .flex {
   display: flex;
 }
@@ -576,8 +579,14 @@ video {
 .w-16 {
   width: 4rem;
 }
+.flex-1 {
+  flex: 1 1 0%;
+}
 .basis-\[50\%\] {
   flex-basis: 50%;
+}
+.basis-1 {
+  flex-basis: 0.25rem;
 }
 @keyframes spin {
 
@@ -715,6 +724,9 @@ video {
 .bg-\[fffbe9\] {
   background-color: fffbe9;
 }
+.bg-\[\] {
+  background-color: ;
+}
 .fill-gray-400 {
   fill: #9ca3af;
 }
@@ -779,6 +791,10 @@ video {
 .py-20 {
   padding-top: 5rem;
   padding-bottom: 5rem;
+}
+.px-1 {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
 }
 .pb-32 {
   padding-bottom: 8rem;

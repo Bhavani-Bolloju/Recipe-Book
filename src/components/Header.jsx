@@ -22,7 +22,7 @@ function Header() {
     if (userAuth?.uid) {
       getUser();
     }
-  }, [userAuth.uid]);
+  }, [userAuth?.uid]);
 
   const searchRecipeHandler = function (e) {
     e.preventDefault();
