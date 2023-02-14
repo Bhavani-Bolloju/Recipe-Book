@@ -1,22 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/use-fetch";
+import { FaBookmark } from "react-icons/fa";
 
 // /random?apiKey=ef3fbded5ccd4a71b118085f0def999a&number=15
 
 function Recipe() {
   const params = useParams();
   const id = params.id;
-  const { data, error, loading } = useFetch(
-    `/${id}/information?apiKey=ef3fbded5ccd4a71b118085f0def999a`
-  );
+  const [bookmark, setBookmark] = useState(false);
+  // const { data, error, loading } = useFetch(
+  //   `/${id}/information?apiKey=ef3fbded5ccd4a71b118085f0def999a`
+  // );
   // const storeRecipe = localStorage.setItem("recipe", JSON.stringify(data));
 
-  // const data = JSON.parse(localStorage.getItem("recipe"));
+  const data = JSON.parse(localStorage.getItem("recipe"));
   // console.log(data);
 
+  const bookmarkHandler = function () {
+    setBookmark((prev) => !prev);
+    console.log(data?.image, data?.title, data?.id);
+  };
+
   return (
-    <div className="w-[70%] m-auto py-10 pb-32 flex flex-col gap-5">
+    <div className="w-[70%] m-auto py-10 pb-32 flex relative  flex-col gap-5">
+      <FaBookmark
+        onClick={bookmarkHandler}
+        className={`self-end absolute right-10 text-xl hover:cursor-pointer ${
+          bookmark ? "fill-red-400" : "fill-gray-400"
+        }`}
+      />
       <div className="flex gap-12 items-center">
         <img
           src={data?.image}
@@ -62,13 +75,19 @@ function Recipe() {
             Instructions
           </h2>
           <ul className="flex flex-col gap-3 h-full scrollbar-hide overflow-y-scroll">
-            {data?.analyzedInstructions[0].steps.map((item, i) => (
-              <li key={i} className="flex items-start gap-3 ">
-                <p>{item.number}</p>
-                <p>{item.step}</p>
-                <p></p>
-              </li>
-            ))}
+            {data?.analyzedInstructions[0] ? (
+              data?.analyzedInstructions[0].steps.map((item, i) => (
+                <li key={i} className="flex items-start gap-3 ">
+                  <p>{item.number}</p>
+                  <p>{item.step}</p>
+                </li>
+              ))
+            ) : (
+              <p
+                className="text-md leading-8"
+                dangerouslySetInnerHTML={{ __html: data?.summary }}
+              ></p>
+            )}
           </ul>
         </div>
       </div>

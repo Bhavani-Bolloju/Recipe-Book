@@ -7,6 +7,7 @@ import * as routes from "./constants/routes";
 import { AuthContext } from "./context/authContext";
 import Header from "./components/Header";
 import Recipe from "./components/Recipe";
+import Search from "./pages/Search";
 
 function App() {
   const { userAuth } = useContext(AuthContext);
@@ -19,6 +20,7 @@ function App() {
         <Route path={routes.signUp} element={<SignUp />}></Route>
         <Route path={routes.logIn} element={<Login />}></Route>
         <Route path="Recipe/:id" element={<Recipe />}></Route>
+        <Route path="Search/:text" element={<Search />}></Route>
       </Routes>
     </div>
   );
