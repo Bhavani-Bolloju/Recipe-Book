@@ -4,6 +4,7 @@ import { AuthContext } from "../context/authContext";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
+import { getUserByUserId } from "../firebase/services";
 
 function Header() {
   const { userAuth } = useContext(AuthContext);
@@ -11,21 +12,15 @@ function Header() {
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
 
-  // console.log(userAuth.uid);
-
   useEffect(() => {
-    const getUserByUserId = async function () {
-      const q = query(
-        collection(db, "users"),
-        where("uid", "==", userAuth.uid)
-      );
-      const doc = await getDocs(q);
-      const data = doc.docs[0].data();
+    const getUser = async function () {
+      const data = await getUserByUserId(userAuth.uid);
+      // console.log(data, "data");
       setUserDetails(data);
     };
 
     if (userAuth?.uid) {
-      getUserByUserId();
+      getUser();
     }
   }, [userAuth.uid]);
 

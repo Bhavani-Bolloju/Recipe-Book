@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/use-fetch";
 import { FaBookmark } from "react-icons/fa";
+import { AuthContext } from "../context/authContext";
+import { toggleBookMark, getUserByUserId } from "../firebase/services";
+import { useId } from "react";
 
 // /random?apiKey=ef3fbded5ccd4a71b118085f0def999a&number=15
 
@@ -9,6 +12,10 @@ function Recipe() {
   const params = useParams();
   const id = params.id;
   const [bookmark, setBookmark] = useState(false);
+  const { userAuth } = useContext(AuthContext);
+  const bookmarkId = useId();
+  // console.log(userAuth.uid);
+
   // const { data, error, loading } = useFetch(
   //   `/${id}/information?apiKey=ef3fbded5ccd4a71b118085f0def999a`
   // );
@@ -17,9 +24,17 @@ function Recipe() {
   const data = JSON.parse(localStorage.getItem("recipe"));
   // console.log(data);
 
-  const bookmarkHandler = function () {
+  const bookmarkHandler = async function () {
     setBookmark((prev) => !prev);
-    console.log(data?.image, data?.title, data?.id);
+
+    const user = await getUserByUserId(userAuth.uid);
+
+    toggleBookMark(user.docId, bookmark, {
+      image: data?.image,
+      title: data?.title,
+      recipeId: data?.id,
+      id: bookmarkId,
+    });
   };
 
   return (
