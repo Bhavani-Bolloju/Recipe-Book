@@ -5,6 +5,7 @@ import { query, collection, getDocs, where } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 import { getUserByUserId } from "../firebase/services";
+import logo from "../../public/chef.svg";
 
 function Header() {
   const { userAuth } = useContext(AuthContext);
@@ -45,7 +46,8 @@ function Header() {
     <header className=" h-16 relative">
       <div className="z-50 bg-[#fffbe9]/70 backdrop-blur-lg shadow-md fixed-height w-[100%] fixed">
         <div className=" flex justify-around items-center fixed-height">
-          <h1 className="text-lg">
+          <h1 className="text-lg flex items-center gap-1">
+            <img src={logo} alt="" className="w-4 h-4" />
             <button onClick={navigateHomeHandler}>Recipe</button>
           </h1>
           <div className="flex items-center justify-end gap-16">

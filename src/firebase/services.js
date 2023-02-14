@@ -7,6 +7,7 @@ import {
   arrayRemove,
   arrayUnion,
   doc,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 
@@ -20,6 +21,8 @@ export const getUserByUserId = async function (uid) {
 export const toggleBookMark = async function (docId, bookmark, details) {
   const data = doc(db, "users", docId);
 
+  console.log(docId, bookmark, details);
+
   await updateDoc(
     data,
     bookmark
@@ -30,6 +33,15 @@ export const toggleBookMark = async function (docId, bookmark, details) {
           bookmarkedRecipe: arrayUnion(details),
         }
   );
+};
 
-  // console.log(docId, bookmark, details);
+export const isBookMarked = async function (uid, recipeId) {
+  const docRef = query(collection(db, "users"), where("uid", "==", uid));
+  const docSnap = await getDocs(docRef);
+  const user = docSnap.docs[0].data();
+
+  const status = user.bookmarkedRecipe.some(
+    (recipe) => recipe.recipeId == recipeId
+  );
+  return status;
 };

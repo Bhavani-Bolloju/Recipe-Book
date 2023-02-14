@@ -1,9 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../hooks/use-fetch";
 import { FaBookmark } from "react-icons/fa";
 import { AuthContext } from "../context/authContext";
-import { toggleBookMark, getUserByUserId } from "../firebase/services";
+import {
+  toggleBookMark,
+  getUserByUserId,
+  isBookMarked,
+} from "../firebase/services";
 import { useId } from "react";
 
 // /random?apiKey=ef3fbded5ccd4a71b118085f0def999a&number=15
@@ -12,6 +16,7 @@ function Recipe() {
   const params = useParams();
   const id = params.id;
   const [bookmark, setBookmark] = useState(false);
+
   const { userAuth } = useContext(AuthContext);
   const bookmarkId = useId();
   // console.log(userAuth.uid);
@@ -22,6 +27,17 @@ function Recipe() {
   // const storeRecipe = localStorage.setItem("recipe", JSON.stringify(data));
 
   // const data = JSON.parse(localStorage.getItem("recipe"));
+
+  useEffect(() => {
+    const getStatus = async function () {
+      const res = await isBookMarked(userAuth.uid, id);
+      setBookmark(res);
+    };
+
+    if (userAuth.uid) {
+      getStatus();
+    }
+  }, []);
 
   const bookmarkHandler = async function () {
     setBookmark((prev) => !prev);

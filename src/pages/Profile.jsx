@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { getUserByUserId } from "../firebase/services";
 import { AuthContext } from "../context/authContext";
-import { Link } from "react-router-dom";
+
 import { auth } from "../firebase/firebase";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+
+import BookmarkedRecipes from "../components/BookmarkedRecipes";
 
 function Profile() {
   const { userAuth } = useContext(AuthContext);
@@ -13,10 +15,11 @@ function Profile() {
 
   const navigate = useNavigate();
 
+  // console.log(user);
+
   useEffect(() => {
     const getUser = async function () {
       const res = await getUserByUserId(userAuth.uid);
-      console.log(res);
       setUser(res);
     };
 
@@ -46,25 +49,43 @@ function Profile() {
               </span>
             </button>
           </div>
-          <div>
-            <h3 className="text-center text-sm p-2">Saved Recipes</h3>
-            <div>
+          {user && (
+            <BookmarkedRecipes
+              bookmarkedRecipes={user.bookmarkedRecipe}
+              docId={user.docId}
+            />
+          )}
+          {/* <div>
+            <h3 className="text-center mb-4 text-sm p-2">Saved Recipes</h3>
+            <div className="flex flex-col gap-3">
               {user.bookmarkedRecipe.map((recipe) => (
-                <Link
+                <div
                   key={recipe.id}
-                  to={`/Recipe/${recipe.id}`}
-                  className="flex items-center rounded-lg gap-5 bg-[#fffbe9] p-2"
+                  onClick={() => {
+                    navigateRecipe(recipe.recipeId);
+                  }}
+                  // to={`/Recipe/${recipe.recipeId}`}
+                  className="flex items-center rounded-lg gap-5 bg-[#fffbe9] w-[80%] m-auto p-2 hover:cursor-pointer"
                 >
                   <img
                     src={recipe.image}
-                    className="w-16 h-16 rounded-full object-cover"
+                    className="w-14 h-14 rounded-full object-cover"
                     alt=""
                   />
                   <p className="text-sm">{recipe.title}</p>
-                </Link>
+                  <FaBookmark
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      bookmarkHandler(recipe);
+                    }}
+                    className={`ml-auto mr-4 ${
+                      bookmarked ? "fill-red-400" : "fill-gray-500"
+                    }`}
+                  />
+                </div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </div>
