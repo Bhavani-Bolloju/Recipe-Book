@@ -37,11 +37,17 @@ function Header() {
     navigate("/Profile");
   };
 
+  const navigateHomeHandler = function () {
+    navigate("/home");
+  };
+
   return (
     <header className=" h-16 relative">
       <div className="z-50 bg-[#fffbe9]/70 backdrop-blur-lg shadow-md fixed-height w-[100%] fixed">
         <div className=" flex justify-around items-center fixed-height">
-          <h1 className="text-lg">Recipe</h1>
+          <h1 className="text-lg">
+            <button onClick={navigateHomeHandler}>Recipe</button>
+          </h1>
           <div className="flex items-center justify-end gap-16">
             <form
               onSubmit={searchRecipeHandler}
