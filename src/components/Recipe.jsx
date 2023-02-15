@@ -8,10 +8,6 @@ import {
   getUserByUserId,
   isBookMarked,
 } from "../firebase/services";
-import { useId } from "react";
-import { nanoid } from "nanoid";
-
-// /random?apiKey=ef3fbded5ccd4a71b118085f0def999a&number=15
 
 function Recipe() {
   const params = useParams();
@@ -24,7 +20,7 @@ function Recipe() {
     `/${id}/information?apiKey=ef3fbded5ccd4a71b118085f0def999a`
   );
 
-  useEffect(() => {
+  let detailedRecipe = useEffect(() => {
     const getStatus = async function () {
       const res = await isBookMarked(userAuth.uid, id);
       setBookmark(res);
@@ -39,36 +35,26 @@ function Recipe() {
     setBookmark((prev) => !prev);
 
     const user = await getUserByUserId(userAuth.uid);
-    // console.log(bookmark, {
-    //   image: data?.image,
-    //   title: data?.title,
-    //   recipeId: data?.id,
-    //   id: nanoid(),
-    // });
-
     toggleBookMark(user.docId, bookmark, {
       image: data?.image,
       title: data?.title,
       recipeId: data?.id,
-      // id: nanoid(),
     });
   };
 
-  // console.log(data);
-
   return (
-    <div className="w-[70%] m-auto py-10 pb-32 flex relative  flex-col gap-5">
+    <div className="w-[70%] h-fit m-auto py-10 pb-32 flex relative   flex-col gap-10">
       <FaBookmark
         onClick={bookmarkHandler}
-        className={`self-end absolute right-10 text-xl hover:cursor-pointer ${
+        className={`self-end absolute  text-xl hover:cursor-pointer ${
           bookmark ? "fill-red-400" : "fill-gray-400"
         }`}
       />
-      <div className="flex gap-12 items-center">
+      <div className="flex max-lg:flex-col-reverse   gap-10 items-center">
         <img
           src={data?.image}
           alt={data?.title}
-          className="h-[350px] object-cover"
+          className="h-[350px] rounded-md object-cover max-xl:w-[450px]"
         />
         <div className="flex flex-col">
           <h3 className="text-4xl font-semibold text-[#3f3400] text-center">
@@ -90,12 +76,12 @@ function Recipe() {
           </div>
         </div>
       </div>
-      <div className="flex h-[400px] gap-10 justify-between">
-        <div className="px-10 basis-[50%]  border-r pr-10">
+      <div className="flex  maz-lg:h-full  max-lg:gap-24 max-lg:flex-col gap-10 justify-between">
+        <div className="px-5 h-[350px] basis-[50%]  border-r pr-10">
           <h2 className="text-center mb-5 text-xl font-semibold">
             Ingredients
           </h2>
-          <ul className="flex flex-col gap-3 text-sm">
+          <ul className="flex flex-col gap-3 text-sm overflow-y-auto scrollbar-hide h-full px-5">
             {data?.extendedIngredients.map((item) => (
               <li key={item.id} className="flex justify-between">
                 <p className="capitalize">{item?.name}</p>
@@ -106,11 +92,11 @@ function Recipe() {
             ))}
           </ul>
         </div>
-        <div className="basis-[50%] h-[400px]">
+        <div className="basis-[50%] h-[350px]">
           <h2 className="text-center mb-5 text-xl font-semibold">
             Instructions
           </h2>
-          <ul className="flex flex-col gap-3 h-full scrollbar-hide overflow-y-scroll">
+          <ul className="flex flex-col gap-3 h-full scrollbar-hide overflow-y-auto text-sm">
             {data?.analyzedInstructions[0] ? (
               data?.analyzedInstructions[0].steps.map((item, i) => (
                 <li key={i} className="flex items-start gap-3 ">
