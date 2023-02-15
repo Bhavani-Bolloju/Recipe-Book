@@ -21,9 +21,7 @@ export const getUserByUserId = async function (uid) {
 export const toggleBookMark = async function (docId, bookmark, details) {
   const data = doc(db, "users", docId);
 
-  console.log(docId, bookmark, details);
-
-  await updateDoc(
+  const res = await updateDoc(
     data,
     bookmark
       ? {

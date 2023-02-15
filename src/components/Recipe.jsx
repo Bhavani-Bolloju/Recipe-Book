@@ -9,6 +9,7 @@ import {
   isBookMarked,
 } from "../firebase/services";
 import { useId } from "react";
+import { nanoid } from "nanoid";
 
 // /random?apiKey=ef3fbded5ccd4a71b118085f0def999a&number=15
 
@@ -18,15 +19,10 @@ function Recipe() {
   const [bookmark, setBookmark] = useState(false);
 
   const { userAuth } = useContext(AuthContext);
-  const bookmarkId = useId();
-  // console.log(userAuth.uid);
 
   const { data, error, loading } = useFetch(
     `/${id}/information?apiKey=ef3fbded5ccd4a71b118085f0def999a`
   );
-  // const storeRecipe = localStorage.setItem("recipe", JSON.stringify(data));
-
-  // const data = JSON.parse(localStorage.getItem("recipe"));
 
   useEffect(() => {
     const getStatus = async function () {
@@ -43,14 +39,22 @@ function Recipe() {
     setBookmark((prev) => !prev);
 
     const user = await getUserByUserId(userAuth.uid);
+    // console.log(bookmark, {
+    //   image: data?.image,
+    //   title: data?.title,
+    //   recipeId: data?.id,
+    //   id: nanoid(),
+    // });
 
     toggleBookMark(user.docId, bookmark, {
       image: data?.image,
       title: data?.title,
       recipeId: data?.id,
-      id: bookmarkId,
+      // id: nanoid(),
     });
   };
+
+  // console.log(data);
 
   return (
     <div className="w-[70%] m-auto py-10 pb-32 flex relative  flex-col gap-5">
@@ -70,9 +74,11 @@ function Recipe() {
           <h3 className="text-4xl font-semibold text-[#3f3400] text-center">
             {data?.title}
           </h3>
-          <p className="mt-3 text-end rounded-full px-2">
-            --{data?.dishTypes[0]}
-          </p>
+          {data?.dishTypes && (
+            <p className="mt-3 text-end rounded-full px-2">
+              -- {data?.dishTypes}
+            </p>
+          )}
           <div className="flex justify-center gap-5 mt-5">
             <p className="text-sm border border-[#d5b720] rounded-full px-2 py-1">
               servings <span className="font-semibold">{data?.servings}</span>

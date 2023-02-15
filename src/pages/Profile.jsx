@@ -7,6 +7,7 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import BookmarkedRecipes from "../components/BookmarkedRecipes";
+import * as routes from "../constants/routes";
 
 function Profile() {
   const { userAuth } = useContext(AuthContext);
@@ -40,7 +41,7 @@ function Profile() {
             <button
               className=" flex-1 text-end"
               onClick={() => {
-                navigate("signUp");
+                navigate(routes.logIn);
                 signOut(auth);
               }}
             >
@@ -55,37 +56,6 @@ function Profile() {
               docId={user.docId}
             />
           )}
-          {/* <div>
-            <h3 className="text-center mb-4 text-sm p-2">Saved Recipes</h3>
-            <div className="flex flex-col gap-3">
-              {user.bookmarkedRecipe.map((recipe) => (
-                <div
-                  key={recipe.id}
-                  onClick={() => {
-                    navigateRecipe(recipe.recipeId);
-                  }}
-                  // to={`/Recipe/${recipe.recipeId}`}
-                  className="flex items-center rounded-lg gap-5 bg-[#fffbe9] w-[80%] m-auto p-2 hover:cursor-pointer"
-                >
-                  <img
-                    src={recipe.image}
-                    className="w-14 h-14 rounded-full object-cover"
-                    alt=""
-                  />
-                  <p className="text-sm">{recipe.title}</p>
-                  <FaBookmark
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      bookmarkHandler(recipe);
-                    }}
-                    className={`ml-auto mr-4 ${
-                      bookmarked ? "fill-red-400" : "fill-gray-500"
-                    }`}
-                  />
-                </div>
-              ))}
-            </div>
-          </div> */}
         </div>
       )}
     </div>

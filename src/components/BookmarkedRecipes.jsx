@@ -5,16 +5,7 @@ import { toggleBookMark } from "../firebase/services";
 import BookmarkedRecipe from "../ui/BookmarkedRecipe";
 
 function BookmarkedRecipes({ bookmarkedRecipes, docId }) {
-  const [bookmarked, setBookmarked] = useState(true);
-
   const navigate = useNavigate();
-
-  const bookmarkHandler = async function (recipe) {
-    toggleBookMark(docId, bookmarked, recipe);
-    setBookmarked((prev) => !prev);
-  };
-
-  // console.log(bookmarkedRecipes);
 
   const navigateRecipe = function (id) {
     navigate(`/Recipe/${id}`);
@@ -33,8 +24,7 @@ function BookmarkedRecipes({ bookmarkedRecipes, docId }) {
               id={item.id}
               recipeId={item.recipeId}
               onNavigate={navigateRecipe}
-              onBookmark={bookmarkHandler}
-              isBookmarked={bookmarked}
+              docId={docId}
             />
           ))}
       </div>

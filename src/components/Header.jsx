@@ -51,29 +51,35 @@ function Header() {
             <button onClick={navigateHomeHandler}>Recipe</button>
           </h1>
           <div className="flex items-center justify-end gap-16">
-            <form
-              onSubmit={searchRecipeHandler}
-              className="flex items-center justify-end w-[400px]"
-            >
-              <input
-                type="text"
-                className="bg-white w-[60%] border focus:outline-none rounded-full p-1 px-3 focus:w-[100%]"
-                onChange={(e) => setSearchInput(e.target.value)}
-              />
-              <button className="-ml-8">
-                <BiSearch className="text-gray-400 text-xl" />
+            {userAuth && (
+              <form
+                onSubmit={searchRecipeHandler}
+                className="flex items-center justify-end w-[400px]"
+              >
+                <input
+                  type="text"
+                  className="bg-white w-[60%] border focus:outline-none rounded-full p-1 px-3 focus:w-[100%]"
+                  onChange={(e) => setSearchInput(e.target.value)}
+                />
+                <button className="-ml-8">
+                  <BiSearch className="text-gray-400 text-xl" />
+                </button>
+              </form>
+            )}
+            {userAuth && (
+              <button
+                onClick={userProfileHandler}
+                className="w-11 h-11 rounded-full bg-[#edde9c] flex items-center justify-center"
+              >
+                {userDetails && (
+                  <>
+                    <p className="text-xl">
+                      {userDetails.username.slice(0, 1)}{" "}
+                    </p>
+                  </>
+                )}
               </button>
-            </form>
-            <button
-              onClick={userProfileHandler}
-              className="w-11 h-11 rounded-full bg-[#edde9c] flex items-center justify-center"
-            >
-              {userDetails && (
-                <>
-                  <p className="text-xl">{userDetails.username.slice(0, 1)} </p>
-                </>
-              )}
-            </button>
+            )}
           </div>
         </div>
       </div>

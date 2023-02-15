@@ -12,6 +12,7 @@ import Profile from "./pages/Profile";
 
 function App() {
   const { userAuth } = useContext(AuthContext);
+  console.log(userAuth);
 
   return (
     <div>
