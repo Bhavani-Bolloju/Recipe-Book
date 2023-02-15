@@ -951,6 +951,10 @@ body {
 
 @media not all and (min-width: 1024px) {
 
+  .max-lg\:w-\[90\%\] {
+    width: 90%;
+  }
+
   .max-lg\:flex-col {
     flex-direction: column;
   }
