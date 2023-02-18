@@ -1,35 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useReducer } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 import { addDoc, collection } from "firebase/firestore";
 import { ImSpinner3 } from "react-icons/im";
 import { useNavigate, Link } from "react-router-dom";
 import { home, logIn } from "../constants/routes";
+import { formReducer } from "../ui/formReducer";
+
+const initialValue = {
+  email: "",
+  password: "",
+  loading: false,
+  error: null,
+};
 
 function SignUp() {
+  const [formValues, dispatchForm] = useReducer(formReducer, initialValue);
+
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const submitFormHandler = async function (e) {
     e.preventDefault();
-    console.log(username, email, password);
+
     if (
       username.trim() === "" ||
-      email.trim() === "" ||
-      password.trim() === ""
+      formValues.email.trim() === "" ||
+      formValues.password.trim() === ""
     ) {
       return;
     }
 
     try {
-      setLoading(true);
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-
-      console.log(res);
+      dispatchForm({ type: "loading", value: true });
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        formValues.email,
+        formValues.password
+      );
       if (!res) throw new Error("user already exists");
 
       await addDoc(collection(db, "users"), {
@@ -40,12 +49,11 @@ function SignUp() {
 
       navigate(home);
     } catch (error) {
-      setError(error.message);
+      dispatchForm({ type: "error", value: error.message });
     }
-    setLoading(false);
+
+    dispatchForm({ type: "reset" });
     setUsername("");
-    setEmail("");
-    setPassword("");
   };
 
   return (
@@ -63,7 +71,7 @@ function SignUp() {
           value={username}
           onChange={(e) => {
             setUsername(e.target.value);
-            setError(null);
+            dispatchForm({ type: "error", value: null });
           }}
         />
         <input
@@ -72,10 +80,10 @@ function SignUp() {
           placeholder="email"
           required
           name="email"
-          value={email}
+          value={formValues.email}
           onChange={(e) => {
-            setEmail(e.target.value);
-            setError(null);
+            dispatchForm({ type: "email", value: e.target.value });
+            dispatchForm({ type: "error", value: null });
           }}
         />
         <input
@@ -84,21 +92,23 @@ function SignUp() {
           className="border-b focus:outline-none p-2 border-[#fbf4d4] placeholder:text-sm"
           placeholder="password"
           minLength="8"
-          value={password}
+          value={formValues.password}
           onChange={(e) => {
-            setPassword(e.target.value);
-            setError(null);
+            dispatchForm({ type: "password", value: e.target.value });
+            dispatchForm({ type: "error", value: null });
           }}
         />
         <button className=" self-center px-7 py-1.5 rounded-md font-normal bg-[#FAECD6] hover:shadow-md text-sm mt-5 focus:outline-none">
           SignIn
         </button>
-        {loading && (
+        {formValues.loading && (
           <ImSpinner3
             className={`text-center self-center text-sm animate-spin`}
           />
         )}
-        {error && <p className="text-md text-red-400">{error}</p>}
+        {formValues.error && (
+          <p className="text-md text-red-400">{formValues.error}</p>
+        )}
         <p className="text-xs text-center">
           Already have an account?{" "}
           <Link className="hover:border-b-2 border-blue-200" to={logIn}>
