@@ -87,7 +87,7 @@ function Recipe() {
             </div>
           </div>
           <div className="flex  maz-lg:h-full  max-lg:gap-24 max-lg:flex-col gap-10 justify-between">
-            <div className="px-5 h-[350px] basis-[50%]  border-r pr-10">
+            <div className="px-5 h-[350px] basis-[50%]  border-r max-lg:border-none pr-10">
               <h2 className="text-center mb-5 text-xl font-semibold">
                 Ingredients
               </h2>

@@ -43,7 +43,7 @@ function Header() {
   };
 
   return (
-    <header className=" h-16 relative">
+    <header className=" h-16 relative heading-font">
       <div className="z-50 bg-[#fffbe9]/70 backdrop-blur-lg shadow-md fixed-height w-[100%] fixed">
         <div className=" flex justify-around items-center fixed-height">
           <h1 className="text-lg flex items-center gap-1">

@@ -10,7 +10,7 @@ function Home() {
     "popular"
   );
 
-  console.log(data, error, loading);
+  // console.log(data, error, loading);
   let recipeData = (
     <ul className="flex flex-wrap gap-10 items-center justify-center">
       {data &&

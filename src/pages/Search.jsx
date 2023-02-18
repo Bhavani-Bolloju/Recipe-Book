@@ -11,6 +11,8 @@ function Search() {
     `/complexSearch?apiKey=9abede69dc0b4c65a28b17bc5d8a1694&query=${text}`
   );
 
+  // console.log(data);
+
   let recipe = (
     <ul className="flex flex-wrap gap-10 items-center justify-center">
       {data &&
@@ -31,6 +33,10 @@ function Search() {
 
   if (loading) {
     recipe = <LoadSpinner />;
+  }
+
+  if (data && data.results.length <= 0) {
+    recipe = <p className="text-center text-blue-500">no recipes found....</p>;
   }
 
   return (
