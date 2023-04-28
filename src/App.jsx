@@ -12,10 +12,9 @@ import Profile from "./pages/Profile";
 
 function App() {
   const { userAuth } = useContext(AuthContext);
-
   return (
     <div>
-      <Header />
+      {userAuth && <Header />}
       <Routes>
         <Route path="/" element={<Navigate to={routes.home} />}></Route>
         <Route

@@ -16,7 +16,6 @@ function Header() {
   useEffect(() => {
     const getUser = async function () {
       const data = await getUserByUserId(userAuth.uid);
-      // console.log(data, "data");
       setUserDetails(data);
     };
 
@@ -43,11 +42,11 @@ function Header() {
   };
 
   return (
-    <header className=" h-16 relative heading-font">
-      <div className="z-50 bg-[#fffbe9]/70 backdrop-blur-lg shadow-md fixed-height w-[100%] fixed">
-        <div className=" flex justify-around items-center fixed-height">
-          <h1 className="text-lg flex items-center gap-1">
-            <img src={logo} alt="" className="w-4 h-4" />
+    <header className="h-20 w-full  relative heading-font">
+      <div className="z-50 bg-[#fffbe9]/70 backdrop-blur-lg shadow-md fixed-height w-[100%] fixed ">
+        <div className="flex justify-between w-[85%] m-auto items-center fixed-height">
+          <h1 className="text-2xl flex items-center gap-2">
+            <img src={logo} alt="" className="w-5 h-5" />
             <button onClick={navigateHomeHandler}>Recipe</button>
           </h1>
           <div className="flex items-center justify-end gap-16">
@@ -73,8 +72,8 @@ function Header() {
               >
                 {userDetails && (
                   <>
-                    <p className="text-xl">
-                      {userDetails.username.slice(0, 1)}{" "}
+                    <p className="text-xl uppercase">
+                      {userDetails.username.slice(0, 1)}
                     </p>
                   </>
                 )}

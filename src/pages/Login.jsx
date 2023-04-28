@@ -5,6 +5,8 @@ import { signUp, home } from "../constants/routes";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { formReducer } from "../ui/formReducer";
+import logo from "../../public/chef.svg";
+import { GiCampCookingPot } from 'react-icons/gi';
 
 const initialValue = {
   email: "",
@@ -36,15 +38,18 @@ function Login() {
   };
 
   return (
-    <div className="h-[90vh] flex flex-col items-center justify-center">
-      <h1 className="mb-20 text-2xl heading-font tracking-wider text-[#F3D099]">
+    <div className="h-[100vh] flex flex-col items-center bg-[#FAECD6]">
+      <h1 className="mb-20 flex flex-col gap-2 items-center text-3xl mt-24 heading-font uppercase tracking-wider text-[#fff] font-bold">
+        <span>
         Bring Restaurant Like Taste At Home
+        </span>
       </h1>
 
       <form
         onSubmit={submitFormHandler}
-        className="flex rounded-md bg-white flex-col w-[400px] py-20 px-14 gap-6 shadow-xl text-sm"
+        className="flex rounded-md bg-white flex-col w-[400px] pb-20 pt-10 px-14 gap-6 shadow-xl text-sm"
       >
+        <GiCampCookingPot className="w-8 h-8 self-center mb-5 text-[#eadbd6]"/>
         <input
           type="email"
           className="border-b focus:outline-none p-2 border-[#fbf4d4] placeholder:text-sm"
